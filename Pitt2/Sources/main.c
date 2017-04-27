@@ -63,6 +63,7 @@
 #include "TestFreeRTOS.h"
 #include "Motor.h"
 #include "Sensor.h"
+#include "Steuerung.h"
 
 //Gobale Variablen
 
@@ -122,6 +123,17 @@ int main(void)
 		  	  	  	  	  	(signed portCHAR *)"Sensor", /* task name for kernel awareness debugging */
 		  	  	  	  	  	configMINIMAL_STACK_SIZE, /* task stack size */
 		 	  	  	  	  	(void*)NULL, /* optional task startup argument */
+		  	  	  	  	  	tskIDLE_PRIORITY,  /* initial priority */
+		  	  	  	  	  	(xTaskHandle*)NULL /* optional task handle to create */
+     	 	 	 	 	 	 ) != pdPASS)
+  {
+     for(;;){}; /* Out of heap memory? */
+  }
+  
+  if (FRTOS1_xTaskCreate(	Steuerung,  /* pointer to the task */
+		  	  	  	  	  	(signed portCHAR *)"Steuerung", /* task name for kernel awareness debugging */
+		  	  	  	  	  	configMINIMAL_STACK_SIZE, /* task stack size */
+		  	  	  	  	  	(void*)NULL, /* optional task startup argument */
 		  	  	  	  	  	tskIDLE_PRIORITY,  /* initial priority */
 		  	  	  	  	  	(xTaskHandle*)NULL /* optional task handle to create */
      	 	 	 	 	 	 ) != pdPASS)
