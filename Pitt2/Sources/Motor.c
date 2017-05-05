@@ -48,7 +48,7 @@ void setStop(uint8_t stop)
   
   for(;;) {
  // do something
-<<<<<<< HEAD
+
 	  xFrequency = speedR;
 	  //xFrequency = 1; //Test Wert
 	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
@@ -58,7 +58,7 @@ void setStop(uint8_t stop)
 	   FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
 	  
 	  speed_R_ClrVal(speed_R_DeviceData);									// neg Flanke
-=======
+
 	  if(stopRL == 0){  
 		  xFrequency = speedR;
 		  xFrequency = 1; //Test Wert
@@ -68,7 +68,7 @@ void setStop(uint8_t stop)
 		  xFrequency = 1; //Test Wert
 		  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
 	  	  speed_R_ClrVal(speed_R_DeviceData);									// neg Flanke
->>>>>>> origin/master
+
 	  
 	  	  dirR= 0; // Test-Wert 
 	  
@@ -94,28 +94,27 @@ void setStop(uint8_t stop)
    
    for(;;) {
   // do something
-<<<<<<< HEAD
+
  	  xFrequency = speedL;
  	//  xFrequency =1; //Test Wert
-=======
+
 	  if(stopRL == 0){
 		  xFrequency = speedL;
 		  xFrequency =1; //Test Wert
->>>>>>> origin/master
+
  	  
 		  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
 		  speed_L_SetVal(speed_L_DeviceData);									// pos Flanke
  	  
-													
-<<<<<<< HEAD
+
  	//  xFrequency = 1; //Test Wert
  	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
  	  speed_L_ClrVal(speed_L_DeviceData);									// neg Flanke
-=======
+
 		  xFrequency = 1; //Test Wert
 		  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
 		  speed_L_ClrVal(speed_L_DeviceData);									// neg Flanke
->>>>>>> origin/master
+
  	  
 		  dirL = 0;  //Test-Wert
  			  

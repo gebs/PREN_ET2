@@ -8,7 +8,7 @@
 
 
 
-uint8_t sens[5] = { 1, 1, 1, 1, 0 }; /* = 1 wenn Sensor ausgwertet werden soll */
+uint8_t sens[5] = { 0, 0, 0, 0, 0 }; /* = 1 wenn Sensor ausgwertet werden soll */
 TickType_t abtastzeit = 20; 
 
 typedef struct Mwertarray {
