@@ -8,8 +8,9 @@
 
 
 
-uint8_t sens[5] = { 0, 0, 0, 0, 0 }; /* = 1 wenn Sensor ausgwertet werden soll */
-TickType_t abtastzeit = 200; 
+uint8_t sens[5] = { 1, 1, 1, 1, 0 }; /* = 1 wenn Sensor ausgwertet werden soll */
+TickType_t abtastzeit = 20; 
+
 typedef struct Mwertarray {
 
 	uint16_t werte[5];
@@ -52,7 +53,7 @@ void Sensor(void *pvParameters) {
 	(void) pvParameters; /* parameter not used */
 
 	TickType_t xLastWakeTime;
-	TickType_t xFrequency = 1000;
+	TickType_t xFrequency = 200;
 	xLastWakeTime = xTaskGetTickCount();
 	US_Init();
 
@@ -108,6 +109,7 @@ uint16_t US_Measure_us(uint8_t i) {
 
 	usDevices.currentDevice = i;
 	usDevices.usDevice[i].setVal(usDevices.usDevice[i].trigDevice);
+	
 	WAIT1_Waitus(10);
 
 	usDevices.usDevice[i].state = ECHO_TRIGGERED;
@@ -168,7 +170,7 @@ void US_Init(void) {
 
 void Measure(void) {
 	TickType_t xLastWakeTime;
-	TickType_t xFrequency = 1000;
+	TickType_t xFrequency = 120;
 	xLastWakeTime = xTaskGetTickCount();
 
 	uint8_t i = 0;

@@ -8,18 +8,18 @@
 #include "Motor.h"
 
 
-TickType_t speedR;
-TickType_t speedL;
+TickType_t speedR = 1;
+TickType_t speedL = 1;
 
 uint8_t dirR;
 uint8_t dirL;
 
-void setSpeedR(uint8_t speed)
+void setSpeedR(TickType_t speed)
 {
 	speedR = speed;
 }
 
-void setSpeedL(uint8_t speed)
+void setSpeedL(TickType_t speed)
 {
 	speedL = speed;
 }
@@ -45,12 +45,13 @@ void setDirL(uint8_t dir)
   for(;;) {
  // do something
 	  xFrequency = speedR;
-	  xFrequency = 1; //Test Wert
+	  //xFrequency = 1; //Test Wert
 	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
 	  speed_R_SetVal(speed_R_DeviceData);									// pos Flanke
 	  											
 	  xFrequency = 1; //Test Wert
-	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
+	   FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
+	  
 	  speed_R_ClrVal(speed_R_DeviceData);									// neg Flanke
 	  
 	  dirR= 0; // Test-Wert 
@@ -74,14 +75,14 @@ void setDirL(uint8_t dir)
    
    for(;;) {
   // do something
- 	  xFrequency = speedR;
- 	  xFrequency =1; //Test Wert
+ 	  xFrequency = speedL;
+ 	//  xFrequency =1; //Test Wert
  	  
  	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
  	  speed_L_SetVal(speed_L_DeviceData);									// pos Flanke
  	  
 													
- 	  xFrequency = 1; //Test Wert
+ 	//  xFrequency = 1; //Test Wert
  	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
  	  speed_L_ClrVal(speed_L_DeviceData);									// neg Flanke
  	  

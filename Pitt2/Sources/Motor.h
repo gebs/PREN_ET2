@@ -14,7 +14,7 @@
 #include "DIR_L.h"
 #include "speed_R.h"
 #include "speed_L.h"
-
+#include "WAIT1.h"
 #include "LED1.h"
 
 #include "FRTOS1.h"
@@ -24,8 +24,8 @@
 #endif /* MOTOR_H_ */
 
  // Seter - Methoden
- void setSpeedR(uint8_t);
- void setSpeedL(uint8_t);
+ void setSpeedR(TickType_t);
+ void setSpeedL(TickType_t);
  void setDirR(uint8_t);
  void setDirL(uint8_t);
  

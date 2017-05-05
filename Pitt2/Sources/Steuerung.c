@@ -17,7 +17,7 @@ uint8_t Sensorn = 2;
 int16_t Kp = 2; 
 int16_t Ti = 1000; 
 int16_t Td = 0; 
-
+int16_t  e; 
 int16_t u_min = -100; 
 int16_t u_max = 100; 
 uint16_t T = 1; 
@@ -34,7 +34,7 @@ void Steuerung(void *pvParameters) {
 	TickType_t xLastWakeTime;
 	TickType_t xFrequency = 1000;
 	xLastWakeTime = xTaskGetTickCount();
-	int16_t  e; 
+	
 	int16_t up; 	
 	int16_t ui; 
 	int16_t ud; 
@@ -45,17 +45,17 @@ void Steuerung(void *pvParameters) {
 		
  setsens(Sensorn); 
  abstand = getsens(Sensorn); 
- if(abstand > 300){
+ if(abstand > 2500){
 	 
 	 	
 	 	xFrequency = 500;
-	 	setSpeedL(0);
+	 	setSpeedL(1000);
 	 	setSpeedR(1);
 	 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
 	 	setSpeedR(1);
 	 	setSpeedL(1);
 	 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
-	 	setSpeedL(0);
+	 	setSpeedL(1000);
 	 	setSpeedR(1);
 	 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
 	 	setSensor(3); 
