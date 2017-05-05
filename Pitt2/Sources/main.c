@@ -119,28 +119,29 @@ int main(void)
   }
  
   
-  if (FRTOS1_xTaskCreate(	Sensor,  /* pointer to the task */
-		  	  	  	  	  	(signed portCHAR *)"Sensor", /* task name for kernel awareness debugging */
-		  	  	  	  	  	configMINIMAL_STACK_SIZE, /* task stack size */
-		 	  	  	  	  	(void*)NULL, /* optional task startup argument */
-		  	  	  	  	  	tskIDLE_PRIORITY,  /* initial priority */
-		  	  	  	  	  	(xTaskHandle*)NULL /* optional task handle to create */
+  if (FRTOS1_xTaskCreate(	Sensor,  
+		  	  	  	  	  	(signed portCHAR *)"Sensor", 
+		  	  	  	  	  	configMINIMAL_STACK_SIZE, 
+		 	  	  	  	  	(void*)NULL, 
+		  	  	  	  	  	tskIDLE_PRIORITY,  
+		  	  	  	  	  	(xTaskHandle*)NULL 
      	 	 	 	 	 	 ) != pdPASS)
   {
-     for(;;){}; /* Out of heap memory? */
+     for(;;){};  
   }
+ 
   
-  if (FRTOS1_xTaskCreate(	Steuerung,  /* pointer to the task */
-		  	  	  	  	  	(signed portCHAR *)"Steuerung", /* task name for kernel awareness debugging */
-		  	  	  	  	  	configMINIMAL_STACK_SIZE, /* task stack size */
-		  	  	  	  	  	(void*)NULL, /* optional task startup argument */
-		  	  	  	  	  	tskIDLE_PRIORITY,  /* initial priority */
-		  	  	  	  	  	(xTaskHandle*)NULL /* optional task handle to create */
+  if (FRTOS1_xTaskCreate(	Steuerung,  
+		  	  	  	  	  	(signed portCHAR *)"Steuerung",
+		  	  	  	  	  	configMINIMAL_STACK_SIZE, 
+		  	  	  	  	  	(void*)NULL, 
+		  	  	  	  	  	tskIDLE_PRIORITY,  
+		  	  	  	  	  	(xTaskHandle*)NULL 
      	 	 	 	 	 	 ) != pdPASS)
   {
-     for(;;){}; /* Out of heap memory? */
+     for(;;){}; 
   }
-  
+ 
 
   /*if (FRTOS1_xTaskCreate(	StateMachine,  // pointer to the task 
 		  	  	  	  	  	(signed portCHAR *)"StateMachine", // task name for kernel awareness debugging 

@@ -43,9 +43,11 @@
 #include "FRTOS1.h"
 #include "TestFreeRTOS.h"
 #include "Motor.h"
+# include "Sensor.h"
 
 void Steuerung(void*); 
-
-
+void setSensor(uint8_t sensornummer); 
+void setsoll(uint16_t s);
+void setspeed(int16_t uk); 
 
 #endif /* STEUERUNG_H_ */

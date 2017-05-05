@@ -8,8 +8,8 @@
 
 
 
-uint8_t sens[5] = { 1, 1, 1, 1, 1 }; /* = 1 wenn Sensor ausgwertet werden soll */
-
+uint8_t sens[5] = { 0, 0, 0, 0, 0 }; /* = 1 wenn Sensor ausgwertet werden soll */
+TickType_t abtastzeit = 200; 
 typedef struct Mwertarray {
 
 	uint16_t werte[5];
@@ -168,7 +168,7 @@ void US_Init(void) {
 
 void Measure(void) {
 	TickType_t xLastWakeTime;
-	TickType_t xFrequency = 38;
+	TickType_t xFrequency = 1000;
 	xLastWakeTime = xTaskGetTickCount();
 
 	uint8_t i = 0;
@@ -196,7 +196,7 @@ void Measure(void) {
 				Term1_SendNum(cm);
 				Term1_SendStr("mm       ");
 				FRTOS1_vTaskDelayUntil(&xLastWakeTime,
-						xFrequency/portTICK_RATE_MS);
+						abtastzeit/portTICK_RATE_MS);
 			}
 
 		}

@@ -75,7 +75,7 @@
 /*
  * @param n 0-4 deaktiviert Sensor 
  */
-	
+ void setsens(uint8_t n); 
 
 void deletsens(uint8_t n); 
 
