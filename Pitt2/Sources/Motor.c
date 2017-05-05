@@ -48,28 +48,18 @@ void setStop(uint8_t stop)
   
   for(;;) {
  // do something
-
-	  xFrequency = speedR;
-	  //xFrequency = 1; //Test Wert
-	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
-	  speed_R_SetVal(speed_R_DeviceData);									// pos Flanke
-	  											
-	  xFrequency = 1; //Test Wert
-	   FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
+	  stopRL = 0; // Testwert
 	  
-	  speed_R_ClrVal(speed_R_DeviceData);									// neg Flanke
-
 	  if(stopRL == 0){  
 		  xFrequency = speedR;
-		  xFrequency = 1; //Test Wert
+		  //xFrequency = 1; //Test Wert
 		  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
 		  speed_R_SetVal(speed_R_DeviceData);									// pos Flanke
 	  											
 		  xFrequency = 1; //Test Wert
 		  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
 	  	  speed_R_ClrVal(speed_R_DeviceData);									// neg Flanke
-
-	  
+ 
 	  	  dirR= 0; // Test-Wert 
 	  
 	  	  if(dirR > 0){						  // Richtung definineren
@@ -94,28 +84,18 @@ void setStop(uint8_t stop)
    
    for(;;) {
   // do something
-
- 	  xFrequency = speedL;
- 	//  xFrequency =1; //Test Wert
-
+	  stopRL = 0; // Testwert
 	  if(stopRL == 0){
 		  xFrequency = speedL;
 		  xFrequency =1; //Test Wert
 
- 	  
-		  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
+ 	  	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
 		  speed_L_SetVal(speed_L_DeviceData);									// pos Flanke
  	  
-
- 	//  xFrequency = 1; //Test Wert
- 	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
- 	  speed_L_ClrVal(speed_L_DeviceData);									// neg Flanke
-
 		  xFrequency = 1; //Test Wert
 		  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
 		  speed_L_ClrVal(speed_L_DeviceData);									// neg Flanke
 
- 	  
 		  dirL = 0;  //Test-Wert
  			  
 		  if(dirL > 0){						  // Richtung definineren
@@ -127,7 +107,6 @@ void setStop(uint8_t stop)
 		  xFrequency = 10; 
 		  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait  
 	  }
-	
    }
  }
 
