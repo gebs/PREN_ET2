@@ -13,6 +13,7 @@ TickType_t speedL = 1;
 
 uint8_t dirR;
 uint8_t dirL;
+uint8_t stopRL;
 
 void setSpeedR(TickType_t speed)
 {
@@ -33,7 +34,10 @@ void setDirL(uint8_t dir)
 {
 	dirL = dir;
 }
-
+void setStop(uint8_t stop)
+{
+	stopRL = stop;
+}
 
  void MotorR(void *pvParameters) {
   (void)pvParameters; /* parameter not used */
@@ -44,6 +48,7 @@ void setDirL(uint8_t dir)
   
   for(;;) {
  // do something
+<<<<<<< HEAD
 	  xFrequency = speedR;
 	  //xFrequency = 1; //Test Wert
 	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
@@ -53,15 +58,29 @@ void setDirL(uint8_t dir)
 	   FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
 	  
 	  speed_R_ClrVal(speed_R_DeviceData);									// neg Flanke
+=======
+	  if(stopRL == 0){  
+		  xFrequency = speedR;
+		  xFrequency = 1; //Test Wert
+		  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
+		  speed_R_SetVal(speed_R_DeviceData);									// pos Flanke
+	  											
+		  xFrequency = 1; //Test Wert
+		  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
+	  	  speed_R_ClrVal(speed_R_DeviceData);									// neg Flanke
+>>>>>>> origin/master
 	  
-	  dirR= 0; // Test-Wert 
+	  	  dirR= 0; // Test-Wert 
 	  
-	  if(dirR > 0){						  // Richtung definineren
-		  DIR_R_SetVal(DIR_R_DeviceData); // Richtung definieren 1
+	  	  if(dirR > 0){						  // Richtung definineren
+	  		  DIR_R_SetVal(DIR_R_DeviceData); // Richtung definieren 1
+	  	  }else{
+	  		  DIR_R_ClrVal(DIR_R_DeviceData); // Richtung definieren 0  
+	  	  }
 	  }else{
-		  DIR_R_ClrVal(DIR_R_DeviceData); // Richtung definieren 0  
+		  xFrequency = 10; 
+		  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
 	  }
-	  
   }
 }
  
@@ -75,24 +94,41 @@ void setDirL(uint8_t dir)
    
    for(;;) {
   // do something
+<<<<<<< HEAD
  	  xFrequency = speedL;
  	//  xFrequency =1; //Test Wert
+=======
+	  if(stopRL == 0){
+		  xFrequency = speedL;
+		  xFrequency =1; //Test Wert
+>>>>>>> origin/master
  	  
- 	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
- 	  speed_L_SetVal(speed_L_DeviceData);									// pos Flanke
+		  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
+		  speed_L_SetVal(speed_L_DeviceData);									// pos Flanke
  	  
 													
+<<<<<<< HEAD
  	//  xFrequency = 1; //Test Wert
  	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
  	  speed_L_ClrVal(speed_L_DeviceData);									// neg Flanke
+=======
+		  xFrequency = 1; //Test Wert
+		  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
+		  speed_L_ClrVal(speed_L_DeviceData);									// neg Flanke
+>>>>>>> origin/master
  	  
- 	  dirL = 0;  //Test-Wert
+		  dirL = 0;  //Test-Wert
  			  
-	  if(dirL > 0){						  // Richtung definineren
-		  DIR_L_ClrVal(DIR_L_DeviceData); // Richtung definieren 0  
+		  if(dirL > 0){						  // Richtung definineren
+			  DIR_L_ClrVal(DIR_L_DeviceData); // Richtung definieren 0  
+		  }else{
+			  DIR_L_SetVal(DIR_L_DeviceData); // Richtung definieren 1
+		  }
 	  }else{
-		  DIR_L_SetVal(DIR_L_DeviceData); // Richtung definieren 1
+		  xFrequency = 10; 
+		  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait  
 	  }
+	
    }
  }
 
