@@ -28,7 +28,7 @@
  void setSpeedL(uint8_t);
  void setDirR(uint8_t);
  void setDirL(uint8_t);
- 
+ void setStop(uint8_t);
  // Tasks
  void MotorR(void*);
  void MotorL(void*);
