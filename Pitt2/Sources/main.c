@@ -32,6 +32,12 @@
 #include "Events.h"
 #include "FRTOS1.h"
 #include "KSDK1.h"
+#include "Rasp0.h"
+#include "BitIoLdd2.h"
+#include "Rasp1.h"
+#include "BitIoLdd3.h"
+#include "Rasp2.h"
+#include "BitIoLdd4.h"
 #include "UTIL1.h"
 #include "DIR_L.h"
 #include "speed_R.h"
@@ -64,6 +70,8 @@
 #include "Motor.h"
 #include "Sensor.h"
 #include "Steuerung.h"
+
+#include "Raspi.h"
 
 //Gobale Variablen
 
