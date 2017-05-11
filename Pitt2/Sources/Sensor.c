@@ -9,7 +9,7 @@
 
 
 uint8_t sens[5] = { 0, 0, 0, 0, 0 }; /* = 1 wenn Sensor ausgwertet werden soll */
-TickType_t abtastzeit = 20; 
+TickType_t abtastzeit = 200;        /* Zeit zwischen Sensormessung */ 
 
 typedef struct Mwertarray {
 
@@ -61,7 +61,7 @@ void Sensor(void *pvParameters) {
 
 		Measure();
 		durchschnitt();
-		FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+		//FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
 		
 	}
 

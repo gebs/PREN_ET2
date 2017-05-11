@@ -7,7 +7,7 @@
 # include "Steuerung.h"
 
 uint16_t abstand; 
-uint16_t soll = 50; 
+uint16_t soll = 100; 
 uint8_t Sensorn = 2; 
 
 /* Konstanten */
@@ -45,6 +45,16 @@ void Steuerung(void *pvParameters) {
 		
  setsens(Sensorn); 
  abstand = getsens(Sensorn); 
+	if(abstand < soll){
+		setSpeedR(2); 
+		setSpeedL(1);
+	}
+	if(abstand > soll){
+		setSpeedL(2);
+		setSpeedR(1);    
+	}
+
+
  if(abstand > 2500){
 	 
 	 	
@@ -65,11 +75,11 @@ void Steuerung(void *pvParameters) {
  }
 
 	
-e = soll - getsens(Sensorn); 
-  up = e * Kp;      /* e: aktueller Fehler, Kp : P-faktor */
-  ui = ui_1 + Kp/Ti * e_1 * T; /*ui_1: ianteil vorher, Ti: faktor, e_1: Fehler vorher,T: abtastzeit */  
-  ud = Kp * Td *(e -e_1)/T;   /* Kd: D-faktor, e: aktueller Fehler, e_1: Fehler vorherh, T: abtastzeit */
-	   
+//e = soll - getsens(Sensorn); 
+ // up = e * Kp;      /* e: aktueller Fehler, Kp : P-faktor */
+  //ui = ui_1 + Kp/Ti * e_1 * T; /*ui_1: ianteil vorher, Ti: faktor, e_1: Fehler vorher,T: abtastzeit */  
+  //ud = Kp * Td *(e -e_1)/T;   /* Kd: D-faktor, e: aktueller Fehler, e_1: Fehler vorherh, T: abtastzeit */
+	  /* 
 	ui_1 = ui;
 	e_1 = e;
 		    
@@ -86,7 +96,7 @@ e = soll - getsens(Sensorn);
 		        u_k = v_k;}
 		    }
 		    
-  setspeed(u_k);  
+  setspeed(u_k);  */
 }
 		   
 	  

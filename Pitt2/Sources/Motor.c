@@ -87,7 +87,8 @@ void setStop(uint8_t stop)
 	  stopRL = 0; // Testwert
 	  if(stopRL == 0){
 		  xFrequency = speedL;
-		  xFrequency =1; //Test Wert
+		  //
+		  //xFrequency =1; //Test Wert
 
  	  	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
 		  speed_L_SetVal(speed_L_DeviceData);									// pos Flanke
@@ -136,7 +137,7 @@ void setStop(uint8_t stop)
  
  
  
- 
+  
 /*void StateMachine(void *pvParameters) {
 	(void)pvParameters; //parameter not used 
     
