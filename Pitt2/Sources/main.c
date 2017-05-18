@@ -87,7 +87,14 @@ int main(void)
   /*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
   PE_low_level_init();
   /*** End of Processor Expert internal initialization.                    ***/
+  
+  //Pull UP Stuff
+  PORTE_PCR20 |=0x02;// Set PTE20 pull-up
+  PORTE_PCR21 |=0x02;// Set PTE21 pull-up
+  PORTE_PCR22 |=0x02;// Set PTE22 pull-up
+  PORTE_PCR5 |=0x02;// Set PTE5 pull-up
 
+  
   /******************************************************/
   /*Starting Controller here! */
   
