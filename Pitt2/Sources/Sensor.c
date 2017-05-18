@@ -8,8 +8,8 @@
 
 
 
-uint8_t sens[5] = { 0, 0, 0, 0, 0 }; /* = 1 wenn Sensor ausgwertet werden soll */
-TickType_t abtastzeit = 200;        /* Zeit zwischen Sensormessung */ 
+uint8_t sens[5] = { 0, 0, 0, 1, 0 }; /* = 1 wenn Sensor ausgwertet werden soll */
+TickType_t abtastzeit = 30;        /* Zeit zwischen Sensormessung */ 
 
 typedef struct Mwertarray {
 
@@ -214,7 +214,7 @@ void durchschnitt(void) {
 	uint8_t j = 0;
 	uint8_t divisor = 0;
 
-	uint16_t durch[5] = { 0, 0, 0, 0, 0 };
+	uint16_t durch[5] = { 0, 0, 0, 1, 0 };
 	Term1_CursorDown(2);
 	Term1_CursorLeft(80);
 
@@ -224,6 +224,7 @@ void durchschnitt(void) {
 	Term1_CursorLeft(80);
 	for (j; j < 5; j++) {
 		for (i; i < 5; i++) {
+			//if (sens[j] == 1){
 			if (messwerte.mess[j].werte[i] != 0) {
 				
 				durch[j] += messwerte.mess[j].werte[i]; /*summiert alle Messwerte*/
@@ -241,6 +242,7 @@ void durchschnitt(void) {
 			Term1_SendNum(durch[j]);
 			Term1_SendStr("mm       ");
 		}
+		//}
 
 	}
 
@@ -258,7 +260,14 @@ void setsens(uint8_t n){
 
 void deletsens(uint8_t n){
 	if(n<5){
-	sens[n]= 0; }
+	sens[n]= 0;
+	messwerte.mess[n].durchschnitt = 0; 
+	messwerte.mess[n].werte[0] = 0;
+	messwerte.mess[n].werte[1] = 0; 
+	messwerte.mess[n].werte[2] = 0; 
+	messwerte.mess[n].werte[3] = 0; 
+	messwerte.mess[n].werte[4] = 0; 
+	}             //////////////////////////////////////////////////// änderung
 }
 
 uint16_t getsens(uint8_t n){
