@@ -24,6 +24,7 @@ Estate state;
 uint16_t abstand; 
 uint16_t soll = 130; 
 uint8_t Sensorn = 0; 
+uint8_t links = 0; 
 uint8_t startsignal = 1; 
 /* Konstanten */
 
