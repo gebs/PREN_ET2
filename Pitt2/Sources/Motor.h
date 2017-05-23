@@ -24,6 +24,8 @@
 #endif /* MOTOR_H_ */
 
  // Seter - Methoden
+void motorstop(void);
+void motorstart(void);
  void setSpeedR(TickType_t);
  void setSpeedL(TickType_t);
  void setDirR(uint8_t);

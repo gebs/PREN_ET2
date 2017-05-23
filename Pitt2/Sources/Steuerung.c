@@ -8,213 +8,170 @@
 
 
 
+typedef enum {
+	WAIT, /* device not used */
+	START, /* started trigger pulse */
+	TREPPE, /* measuring echo pulse */
+	VERSCHRAENKUNG, /* measurement took too long */
+	KURVE,
+	WIPPE, 
+	ZIEL, 
+	STOP/* measurement finished */
+} Estate;
+
+
+Estate state; 
 uint16_t abstand; 
 uint16_t soll = 130; 
 uint8_t Sensorn = 0; 
-uint8_t Parcourshaelfte = 0; 
-uint8_t Parcourseite = 0; 
-uint8_t parcour2 = 0; 
-uint8_t start = 0; 
+uint8_t startsignal = 1; 
 /* Konstanten */
 
 
-
-int16_t Kp = 2; 
-int16_t Ti = 1000; 
-int16_t Td = 0; 
-int16_t  e; 
-int16_t u_min = -100; 
-int16_t u_max = 100; 
-uint16_t T = 1; 
-
-int16_t e_1 = 0; 
-int16_t ui_1 = 0; 
-uint16_t ei_1 = 0; 
 
 
 
 void Steuerung(void *pvParameters) {
 	(void) pvParameters; 
- 
+	TickType_t xFrequency = 10;
 	TickType_t xLastWakeTime;
-	
 	xLastWakeTime = xTaskGetTickCount();
 	
-	int16_t up; 	
-	int16_t ui; 
-	int16_t ud; 
-	int16_t v_k; 
-	int16_t u_k; 
+
 	for(;;){
-		TickType_t xFrequency = 200;
+		xFrequency = 200; 
 		FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
-/*		
-
-}*/
- if(Parcourseite == 0){   // Parcour rechts
-
-	 if(start == 0){
-	 	 setSpeedR(1); 
-	 	 setSpeedL(1); 
-	 	 setSensor(3);
-	 	 TickType_t xFrequency = 5000;
-	 	 FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
-	 	 start = 1;  
-	 }
-	 
- setsens(Sensorn); 
- abstand = getsens(Sensorn); 
- setSpeedR(1); 
- setSpeedL(1); 
+		switch (state){
+		case WAIT: 
+			
+			break; 
+		case START: 
+			motorstart(); 
+	  		  if(links == 1){
+	  			start(1);   
+	  		  }
+	  		  if(links == 0){
+	  			start(3); 
+	  		  }
+	  		xFrequency = 3500;
+	  	    FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+			break; 
+		case TREPPE: 
+	  		 setSpeedR(2); 
+	  		 setSpeedL(2); 
+	  		 xFrequency = 9000;
+	  	     FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+			break; 
+		case VERSCHRAENKUNG: 
+			  
+			 abstand = getsens(Sensorn); 
+			 setSpeedR(1); 
+			 setSpeedL(1); 
  
- 
- if (Parcourshaelfte == 0){
-	 
-	 
-	if(abstand < (soll - 10)){
-		setSpeedR(2); 
-		setSpeedL(1);
-	}
-	if(abstand > (soll + 10)){
-		setSpeedL(2);
-		setSpeedR(1);    
-	}
- }
- if (Parcourshaelfte == 1){
-		if(abstand < (soll - 10)){
-			setSpeedR(1); 
-			setSpeedL(2);
-		}
-		if(abstand > (soll + 10)){
-			setSpeedL(1);
-			setSpeedR(2);  
-		}
-			 
- }
-
- if((abstand > 250) && (parcour2 == 0)){
-	    setSpeedL(1);
-	 	setSpeedR(1);
-	 	xFrequency = 5000; 
-	 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
-	 	xFrequency = 5500;
-	 	setSpeedL(1000);
-	 	setSpeedR(1);
-	 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
-	 	xFrequency = 4500;
-	 	setSpeedR(1);
-	 	setSpeedL(1);
-	 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
-	 	xFrequency = 5500;
-	 	setSpeedL(1000);
-	 	setSpeedR(1);
-	 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
-	 	setSpeedL(1); 
-	 	setSensor(1); 
-	 	xFrequency = 1000; 
-	 	Parcourshaelfte = 1; 
-	 	deletsens(3); 
-	 	parcour2 = 1; 
-	 }
-
- }
-	if (Parcourseite == 1){                 // Parcour links
-		 if(start == 0){
-		 	 setSpeedR(1); 
-		 	 setSpeedL(1); 
-		 	 setSensor(1);
-		 	 TickType_t xFrequency = 5000;
-		 	 FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
-		 	 start = 1;  
-		 }
-		
-		
-		
-		 setsens(Sensorn); 
-		 abstand = getsens(Sensorn); 
-		 setSpeedR(1); 
-		 setSpeedL(1); 
-		 
-		 
-		 if (Parcourshaelfte == 0){
-			 
-			 
-			if(abstand < (soll - 10)){
-				setSpeedR(1); 
-				setSpeedL(2);
-			}
-			if(abstand > (soll + 10)){
-				setSpeedL(1);
-				setSpeedR(2);    
-			}
-		 }
-		 if (Parcourshaelfte == 1){
 				if(abstand < (soll - 10)){
 					setSpeedR(2); 
 					setSpeedL(1);
 				}
 				if(abstand > (soll + 10)){
 					setSpeedL(2);
-					setSpeedR(1);  
+					setSpeedR(1);    
 				}
-					 
-		 }
+			 
 
-		 if((abstand > 250) && (parcour2 == 0)){
+						 
+			 
+			 if(abstand > 250){
+				 state = KURVE; 
+			 }
+			break; 
+		case KURVE: 
+			if(links == 0){
+					setSpeedL(1);
+				 	setSpeedR(1);
+				 	xFrequency = 2800; 
+				 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+				 	xFrequency = 3600;
+				 	setSpeedL(1000);
+				 	setSpeedR(1);
+				 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+				 	xFrequency = 3000;
+				 	setSpeedR(1);
+				 	setSpeedL(1);
+				 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+				 	xFrequency = 3600;
+				 	setSpeedL(1000);
+				 	setSpeedR(1);
+				 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+				 	setSpeedL(1); 
+				 	setSensor(1); 
+				 	xFrequency = 2000; 
+				 	deletsens(3); 
+				 	setsoll(50); 
+				 	state = WIPPE;}
+			
+			if (links == 1){
 			    setSpeedL(1);
 			 	setSpeedR(1);
-			 	xFrequency = 5000; 
+			 	xFrequency = 2800; 
 			 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
-			 	xFrequency = 5500;
+			 	xFrequency = 3600;
 			 	setSpeedL(1);
 			 	setSpeedR(1000);
 			 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
-			 	xFrequency = 4500;
+			 	xFrequency = 3000;
 			 	setSpeedR(1);
 			 	setSpeedL(1);
 			 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
-			 	xFrequency = 5500;
+			 	xFrequency = 3600;
 			 	setSpeedL(1);
 			 	setSpeedR(1000);
 			 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
 			 	setSpeedL(1); 
 			 	setSensor(3); 
-			 	xFrequency = 1000; 
-			 	Parcourshaelfte = 1; 
+			 	xFrequency = 2000; 
 			 	deletsens(1); 
-			 	parcour2 = 1; 
-			 }
-	}
- 
-	}
-	
-	
-//e = soll - getsens(Sensorn); 
- // up = e * Kp;      /* e: aktueller Fehler, Kp : P-faktor */
-  //ui = ui_1 + Kp/Ti * e_1 * T; /*ui_1: ianteil vorher, Ti: faktor, e_1: Fehler vorher,T: abtastzeit */  
-  //ud = Kp * Td *(e -e_1)/T;   /* Kd: D-faktor, e: aktueller Fehler, e_1: Fehler vorherh, T: abtastzeit */
-	  /* 
-	ui_1 = ui;
-	e_1 = e;
-		    
-	v_k = up + ui + ud;
-		    
-		    if (v_k > u_max){
-		        u_k = u_max;}
-		    
-		    else{
-		    	if( v_k < u_min){
-		    
-		        u_k = u_min;}
-		    else{
-		        u_k = v_k;}
-		    }
-		    
-  setspeed(u_k);  */
+			 	setsoll(50);     
+			 	state = WIPPE; 
+			}
+			
+			break; 
+		case WIPPE: 
+			 
+			setSpeedR(1); 	 
+			setSpeedL(1); 
+			abstand = getsens(Sensorn); 
+			if(abstand < (soll - 10)){
+				setSpeedR(1); 
+				setSpeedL(2);
+			}
+			if(abstand > (soll + 10)){
+				setSpeedL(1);
+				setSpeedR(2);  
+			}
+			
+			break; 
+		case ZIEL: 
+			 setSpeedR(2); 
+			 setSpeedL(2); 
+			abstand = getsens(Sensorn); 
+			if(abstand < (soll - 5)){
+				setSpeedR(2); 
+				setSpeedL(4);
+			}
+			if(abstand > (soll + 5)){
+				setSpeedL(2);
+				setSpeedR(4);  
+			}
+			
+			break;
+		case STOP: 
+			motorstop(); 
+			break; 
+		}
 
 }
 		   
-	  
+}  
 		    
 	    
 void setsoll(uint16_t s){
@@ -246,4 +203,84 @@ void setspeed(int16_t uk){
 }
 }
 
+void setParcourseite(uint8_t s){
+	if (s== 0){
+	links = s; }
+	if (s== 1){
+    links = s; 
+	}
+}
+void start(uint8_t sensor){
+	 setSpeedR(1); 
+	 setSpeedL(1); 
+	 setSensor(sensor);
+}
+
+
+void StateMachine(void *pvParameters) {
+	(void)pvParameters; //parameter not used 
+    
+    TickType_t xLastWakeTime;
+    TickType_t xFrequency = 10;		//muss die Statemaschine "ausgebremst" werden?
+    xLastWakeTime = xTaskGetTickCount(); 
+    
+    
+    
+    for(;;) {
+   // do something
+  	  
+  	  xFrequency = 200; //Test Wert
+  	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
+  	  
+  	  switch(state){
+  	  case WAIT:
+  		  if(startsignal == 1){
+  	       state = START; 
+  		  }
+	
+  	  	  
+  	  	  break;
+  	  case START:
+
+  		 xFrequency = 3500;
+  	     FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+  	     
+  	     state = TREPPE; 
+  		  break;
+  	  case TREPPE:
+
+  		 xFrequency = 9000;
+  	     FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+  	     state = VERSCHRAENKUNG; 
+  	     
+  		  break;
+  	  case VERSCHRAENKUNG:
+          
+  		  
+  		  break;
+  	  case KURVE:
+
+  		  break;
+  	  case WIPPE:
+  		         xFrequency = 25000;
+  		  	     FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+  		  	     state = ZIEL; 
+  		  break;
+  	  case ZIEL:
+	         xFrequency = 8000;
+	  	     FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+	  	     state = STOP; 
+  		  break;
+  	  case STOP:
+			setSpeedL(1000);
+			setSpeedR(1000); 
+  		  break; 
+  	  
+  	  }
+  	  
+  	  
+  	  
+  	 
+    }
+  }
 

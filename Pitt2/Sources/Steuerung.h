@@ -49,5 +49,8 @@ void Steuerung(void*);
 void setSensor(uint8_t sensornummer); 
 void setsoll(uint16_t s);
 void setspeed(int16_t uk); 
+void start(uint8_t); 
+void StateMachine(void *pvParameters); 
 
 #endif /* STEUERUNG_H_ */
+

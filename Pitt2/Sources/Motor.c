@@ -14,6 +14,12 @@ TickType_t speedL = 1;
 uint8_t dirR;
 uint8_t dirL;
 uint8_t stopRL;
+void motorstop(void){
+	stopRL = 1; 
+}
+void motorstart(void){
+	stopRL = 0; 
+}
 
 void setSpeedR(TickType_t speed)
 {
@@ -137,69 +143,6 @@ void setStop(uint8_t stop)
  
  
  
-  
-/*void StateMachine(void *pvParameters) {
-	(void)pvParameters; //parameter not used 
-    
-    TickType_t xLastWakeTime;
-    TickType_t xFrequency = 10;		//muss die Statemaschine "ausgebremst" werden?
-    xLastWakeTime = xTaskGetTickCount(); 
-    
-    uint8_t state = 1;	
-    
-    for(;;) {
-   // do something
-  	  
-  	  xFrequency = 800; //Test Wert
-  	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
-  	  
-  	  switch(state){
-  	  case 1:
-  		  setDirL(1); 	//Vorwärts
-  		  setDirR(1);
-  		  setSpeedR(2);	//Geschwindigkeit 2
-  		  setSpeedL(2);
-  		  
-  	  	  // Linker oder Rechter Parcour? 
-  	  	  // Hardware Schalter einlesen
-  		  
-  	  	  state = 2;
-  	  	  break;
-  	  case 2:
-  		  // If Startsymbol via USB erhalten
-  		  	  //Starte MotorTask
-  		  	  state = 3;
-  		  // Else 
-  		  	  state = 2;
-  		  break;
-  	  case 3:
-  		  // If zu rechts 
-  		  //	fahre bizi links
-  		  // If zu links
-  		  // 	fahre bizi rechts
-  		  // Else 
-  		  // 	fahre gerade aus
-  		  
-  		  // If Kurve erreicht
-  		  //  	fahre Kurve
-  		  state = 4;
-  		  break;
-  	  case 4:
 
-  		  state = 5;
-  		  break;
-  	  case 5:
-  		  // IF Zahl erkannt
-  		  // 	fahre korrekten abstand
-  		  break;
-  	
-  	  
-  	  }
-  	  
-  	  
-  	  
-  	 
-    }
-  }
-*/
+
  
