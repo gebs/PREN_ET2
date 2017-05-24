@@ -51,6 +51,8 @@ void setsoll(uint16_t s);
 void setspeed(int16_t uk); 
 void start(uint8_t); 
 void StateMachine(void *pvParameters); 
+void getParcourseite(void);
+uint16_t getZifferSollAbstand(void);
 
 #endif /* STEUERUNG_H_ */
 

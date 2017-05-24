@@ -24,8 +24,9 @@ Estate state;
 uint16_t abstand; 
 uint16_t soll = 130; 
 uint8_t Sensorn = 0; 
-uint8_t links = 0; 
+bool links = 0; 
 uint8_t startsignal = 1; 
+int raspiValue;
 /* Konstanten */
 
 
@@ -37,35 +38,37 @@ void Steuerung(void *pvParameters) {
 	TickType_t xFrequency = 10;
 	TickType_t xLastWakeTime;
 	xLastWakeTime = xTaskGetTickCount();
-	
 
 	for(;;){
 		xFrequency = 200; 
 		FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
 		switch (state){
 		case WAIT: 
-			//Einlesen Schnittstelle
-			// IF start THEN ...... next state
+			raspiValue = getRaspiSignal(); 	//Einlesen Schnittstelle
+			if( raspiValue == 7){			//wenn Startsignal von Raspi erkannt --> START
+				state = START;
+			}
 			
 			break; 
 		case START: 
 			motorstart(); 
+			
 	  		  if(links == 1){
 	  			start(1);   
 	  		  }
 	  		  if(links == 0){
-	  			start(3); 
+	  			{
+	  				start(3); 
+	  			}
 	  		  }
 	  		xFrequency = 3500;
 	  	    FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
-	  	    // state = START;
 			break; 
 		case TREPPE: 
 	  		 setSpeedR(2); 
 	  		 setSpeedL(2); 
 	  		 xFrequency = 9000;
 	  	     FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
-	  	     //state = VERSCHRAENKUNG;
 			break; 
 		case VERSCHRAENKUNG: 
 			  
@@ -153,12 +156,16 @@ void Steuerung(void *pvParameters) {
 				setSpeedL(1);
 				setSpeedR(2);  
 			}
-			
+	
 			break; 
 		case ZIEL: 
 			 setSpeedR(2); 
 			 setSpeedL(2); 
-			abstand = getsens(Sensorn); 
+			 if(getRaspiSignal ==1){
+				 
+			 }
+			abstand = getsens(Sensorn);
+			//soll = getZifferSollAbstand();
 			if(abstand < (soll - 5)){
 				setSpeedR(2); 
 				setSpeedL(4);
@@ -216,8 +223,23 @@ void setspeed(int16_t uk){
 	}
 }*/
 void getParcourseite(void){
+	links = Parcour_GetVal();
+}
+
+uint16_t getZifferSollAbstand(void){
+	uint16_t z ;
+	getParcourseite();
+	if(links){
+		uint16_t zifferAbstand[5] = {78, 133, 48, 108, 171};
+		z = zifferAbstand[getRaspiSignal()];
+	}else{
+		uint16_t zifferAbstand[5] = {174, 114, 50, 144, 76};
+		z = zifferAbstand[getRaspiSignal()];
+	}
+	return(z);
 	
 }
+
 void start(uint8_t sensor){
 	 setSpeedR(1); 
 	 setSpeedL(1); 
@@ -242,7 +264,7 @@ void StateMachine(void *pvParameters) {
   	  
   	  switch(state){
   	  case WAIT:
-  		  if(startsignal == 1){
+  		  if(startsignal == 1){ //nur für Testphase?? dann eliminieren??
   	       state = START; 
   		  }
 	
@@ -280,8 +302,9 @@ void StateMachine(void *pvParameters) {
 	  	     state = STOP; 
   		  break;
   	  case STOP:
-			setSpeedL(1000);
-			setSpeedR(1000); 
+			//setSpeedL(1000);
+			//setSpeedR(1000); 
+  		  	motorstop();
   		  break; 
   	  
   	  }
