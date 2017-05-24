@@ -44,6 +44,8 @@ void Steuerung(void *pvParameters) {
 		FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
 		switch (state){
 		case WAIT: 
+			//Einlesen Schnittstelle
+			// IF start THEN ...... next state
 			
 			break; 
 		case START: 
@@ -56,12 +58,14 @@ void Steuerung(void *pvParameters) {
 	  		  }
 	  		xFrequency = 3500;
 	  	    FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+	  	    // state = START;
 			break; 
 		case TREPPE: 
 	  		 setSpeedR(2); 
 	  		 setSpeedL(2); 
 	  		 xFrequency = 9000;
 	  	     FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+	  	     //state = VERSCHRAENKUNG;
 			break; 
 		case VERSCHRAENKUNG: 
 			  

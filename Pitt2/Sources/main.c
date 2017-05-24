@@ -48,6 +48,7 @@
 #include "LEDpin1.h"
 #include "BitIoLdd1.h"
 #include "Parcour.h"
+#include "BitIoLdd5.h"
 #include "TU2.h"
 #include "TRIG2.h"
 #include "TRIG3.h"
