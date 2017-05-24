@@ -208,12 +208,15 @@ void setspeed(int16_t uk){
 }
 }
 
-void setParcourseite(uint8_t s){
+/*void setParcourseite(uint8_t s){
 	if (s== 0){
 	links = s; }
 	if (s== 1){
     links = s; 
 	}
+}*/
+void getParcourseite(void){
+	
 }
 void start(uint8_t sensor){
 	 setSpeedR(1); 
