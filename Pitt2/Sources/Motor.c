@@ -128,7 +128,11 @@ void setStop(uint8_t stop)
   
   for(;;) {
 	  
-	  xFrequency = 400; //Test Wert
+	  if(Parcour_GetVal()){
+		  xFrequency = 800; //Test Wert
+	  }else{
+		  xFrequency = 200;
+	  }
 	  
 	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
 					

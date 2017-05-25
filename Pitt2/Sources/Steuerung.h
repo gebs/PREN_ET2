@@ -52,7 +52,7 @@ void setspeed(int16_t uk);
 void start(uint8_t); 
 void StateMachine(void *pvParameters); 
 void getParcourseite(void);
-uint16_t getZifferSollAbstand(void);
+uint16_t getZifferSollAbstand(int);
 
 #endif /* STEUERUNG_H_ */
 
