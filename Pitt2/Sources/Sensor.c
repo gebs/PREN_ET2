@@ -8,7 +8,7 @@
 
 
 
-uint8_t sens[5] = { 0, 0, 0, 1, 0 }; /* = 1 wenn Sensor ausgwertet werden soll */
+uint8_t sens[5] = { 0, 0, 0, 0, 0 }; /* = 1 wenn Sensor ausgwertet werden soll */
 TickType_t abtastzeit = 30;        /* Zeit zwischen Sensormessung */ 
 
 typedef struct Mwertarray {
@@ -214,7 +214,7 @@ void durchschnitt(void) {
 	uint8_t j = 0;
 	uint8_t divisor = 0;
 
-	uint16_t durch[5] = { 0, 0, 0, 1, 0 };
+	uint16_t durch[5] = { 0, 0, 0, 0, 0 };
 	Term1_CursorDown(2);
 	Term1_CursorLeft(80);
 
