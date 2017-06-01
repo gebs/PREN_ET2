@@ -124,24 +124,52 @@ void setStop(uint8_t stop)
   TickType_t xLastWakeTime;
   TickType_t xFrequency = 10;
   xLastWakeTime = xTaskGetTickCount();
-  
+  int i;
   
   for(;;) {
 	  
-	  if(Parcour_GetVal()){
+/*	  if(Parcour_GetVal()){
 		  xFrequency = 800; //Test Wert
 	  }else{
 		  xFrequency = 200;
 	  }
 	  
+	  
+*/
+	  
+	  xFrequency = 1000;
 	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
 					
 	  LED1_Neg(); // für Testzweck
 	  												
-	  xFrequency = 200; //Test Wert
+	  xFrequency = 1000; //Test Wert
 	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
 	  									// neg Flanke
 	  LED1_Neg(); // für Testzweck
+	  
+	  for(i=getRaspiSignal(); i>0; i--){
+		  xFrequency = 200;
+		  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
+						
+		  LED1_Neg(); // für Testzweck
+		  												
+		  xFrequency = 200; //Test Wert
+		  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
+		  									// neg Flanke
+		  LED1_Neg(); // für Testzweck
+		  
+	  }
+	  
+	  xFrequency = 1000;
+	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS); 	// wait milisec
+					
+	  LED1_Neg(); // für Testzweck
+	  												
+	  xFrequency = 1000; //Test Wert
+	  FRTOS1_vTaskDelayUntil(&xLastWakeTime,xFrequency/portTICK_RATE_MS);	// wait short
+	  									// neg Flanke
+	  LED1_Neg(); // für Testzweck
+
   }
 }
  
