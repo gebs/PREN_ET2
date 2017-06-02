@@ -113,33 +113,48 @@ void Steuerung(void *pvParameters) {
 			break; 
 		case KURVE: 
 			if(links == 0){
-					setSpeedL(1);
+				    
+					deletsens(3);
+				    setSpeedL(1);
 				 	setSpeedR(1);
-				 	xFrequency = 2800; 
+				 	setSensor(0);
+				 	xFrequency = 2800;
 				 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+				 	
 				 	xFrequency = 3600; //angepasst original 3600
 				 	setSpeedL(1000);
 				 	setSpeedR(1);
+				 	 
+				
 				 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
 				 	xFrequency = 2700;
 				 	setSpeedR(1);
 				 	setSpeedL(1);
-				 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+				 	
+				 	while(getsens(Sensorn) > 200){
+								 		xFrequency = 10;
+								 		FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+								 						 	
+								 	}
+				    deletsens(0);
+				
 				 	xFrequency = 3600; //angepasst original 3600
 				 	setSpeedL(1000);
 				 	setSpeedR(1);
 				 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
 				 	setSpeedL(1); 
-				 	deletsens(3);
+				 	
 				 	setSensor(2); 
 				 	setsoll(50);
-				 	xFrequency = 2000; 
+				 	
 				 	 
 				 	 
 				 	state = WIPPE;}
 			
 			if (links == 1){
-			    setSpeedL(1);
+			    deletsens(2);
+			    setSensor(0);
+				setSpeedL(1);
 			 	setSpeedR(1);
 			 	xFrequency = 2800; 
 			 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
@@ -150,16 +165,23 @@ void Steuerung(void *pvParameters) {
 			 	xFrequency = 2700;
 			 	setSpeedR(1);
 			 	setSpeedL(1);
-			 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+				 
+			 	while(getsens(Sensorn) > 200){
+											 		xFrequency = 10;
+											 		FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+											 						 	
+											 	}
+				deletsens(0);
+			 	
 			 	xFrequency = 3600;//angepasst original 3600
 			 	setSpeedL(1);
 			 	setSpeedR(1000);
 			 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
 			 	setSpeedL(1); 
-			 	deletsens(2); 
+			 	
 			 	setSensor(3); 
 			 	setsoll(50);
-			 	xFrequency = 2000; 
+			 	
 			 	
 			 	     
 			 	state = WIPPE; 
@@ -201,9 +223,9 @@ void Steuerung(void *pvParameters) {
 		case ZIEL: 
 			 setSpeedR(2); 
 			 setSpeedL(2); 
-
+             
 			abstand = getsens(Sensorn);
-
+			
 			if(links){
 				if(abstand < (soll - 5)){
 					setSpeedR(4); 
