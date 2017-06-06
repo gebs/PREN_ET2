@@ -20,13 +20,13 @@ typedef enum {
 } Estate;
 
 
-Estate state; 
+Estate state = WAIT; 
 uint16_t abstand; 
 uint16_t soll = 130; 
 uint8_t Sensorn = 0; 
 bool links;
 uint8_t startsignal = 1; 
-int raspiValue;
+int raspiValue =0;
 
 /* Konstanten */
 
@@ -52,7 +52,8 @@ void Steuerung(void *pvParameters) {
 			deletsens(3); 
 			deletsens(4); 
 			raspiValue = getRaspiSignal(); 	
-			if( raspiValue == 7){			
+			
+			if( raspiValue == 6){			
 				state = START;
 			}
 			
@@ -118,7 +119,7 @@ void Steuerung(void *pvParameters) {
 				    setSpeedL(1);
 				 	setSpeedR(1);
 				 	setSensor(0);
-				 	xFrequency = 2800;
+				 	xFrequency = 2000;
 				 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
 				 	
 				 	xFrequency = 3600; //angepasst original 3600
@@ -131,7 +132,7 @@ void Steuerung(void *pvParameters) {
 				 	setSpeedR(1);
 				 	setSpeedL(1);
 				 	
-				 	while(getsens(Sensorn) > 200){
+				 	while(getsens(Sensorn) > 180){
 								 		xFrequency = 10;
 								 		FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
 								 						 	
@@ -145,7 +146,7 @@ void Steuerung(void *pvParameters) {
 				 	setSpeedL(1); 
 				 	
 				 	setSensor(2); 
-				 	setsoll(50);
+				 	setsoll(130);
 				 	
 				 	 
 				 	 
@@ -155,8 +156,9 @@ void Steuerung(void *pvParameters) {
 			    deletsens(2);
 			    setSensor(0);
 				setSpeedL(1);
+				
 			 	setSpeedR(1);
-			 	xFrequency = 2800; 
+			 	xFrequency = 2000; 
 			 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
 			 	xFrequency = 3600; //angepasst original 3600
 			 	setSpeedL(1);
@@ -166,7 +168,7 @@ void Steuerung(void *pvParameters) {
 			 	setSpeedR(1);
 			 	setSpeedL(1);
 				 
-			 	while(getsens(Sensorn) > 200){
+			 	while(getsens(Sensorn) > 180){
 											 		xFrequency = 10;
 											 		FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
 											 						 	
@@ -180,7 +182,7 @@ void Steuerung(void *pvParameters) {
 			 	setSpeedL(1); 
 			 	
 			 	setSensor(3); 
-			 	setsoll(50);
+			 	setsoll(130);
 			 	
 			 	
 			 	     
@@ -190,11 +192,11 @@ void Steuerung(void *pvParameters) {
 			break; 
 		case WIPPE: 
 			raspiValue = getRaspiSignal() - 1; // -1 wegen array index evtl
-			raspiValue = 3;		// für Testing
+			
 			if(0 <= raspiValue < 5){
 				setsoll(getZifferSollAbstand(raspiValue));
 			}else{
-				setsoll(50);
+				setsoll(130);
 			}
 			setSpeedR(1); 	 
 			setSpeedL(1); 
@@ -221,7 +223,8 @@ void Steuerung(void *pvParameters) {
 	
 			break; 
 		case ZIEL: 
-			 setSpeedR(2); 
+			
+			setSpeedR(2); 
 			 setSpeedL(2); 
              
 			abstand = getsens(Sensorn);
@@ -336,9 +339,9 @@ void StateMachine(void *pvParameters) {
   	  
   	  switch(state){
   	  case WAIT:
-  		  if(startsignal == 1){ //nur für Testphase?? dann eliminieren??
-  	       state = START; 
-  		  }
+  		//  if(startsignal == 1){ //nur für Testphase?? dann eliminieren??
+  	    //  state = START; 
+  		//  }
 	
   	  	  
   	  	  break;
@@ -364,19 +367,27 @@ void StateMachine(void *pvParameters) {
 
   		  break;
   	  case WIPPE:
-  		         xFrequency = 25000;
+  		     setsens(0);   
+  		     xFrequency = 25000;
   		  	     FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
   		  	     state = ZIEL; 
+  		  	     
   		  break;
   	  case ZIEL:
-	         xFrequency = 8000;
+  		      
+  		     while(getsens(0) > 40){
+	         xFrequency = 10;
 	  	     FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+  		     }
+  		   xFrequency = 1000;
+  		   	  	     FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
 	  	     state = STOP; 
   		  break;
   	  case STOP:
 			//setSpeedL(1000);
 			//setSpeedR(1000); 
   		  	motorstop();
+  		  	state = WAIT; 
   		  break; 
   	  
   	  }

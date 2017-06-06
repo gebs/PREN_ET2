@@ -11,9 +11,9 @@
 TickType_t speedR = 1;
 TickType_t speedL = 1;
 
-uint8_t dirR;
-uint8_t dirL;
-uint8_t stopRL;
+uint8_t dirR = 0;
+uint8_t dirL = 0;
+uint8_t stopRL =1;
 void motorstop(void){
 	stopRL = 1; 
 }
@@ -54,7 +54,7 @@ void setStop(uint8_t stop)
   
   for(;;) {
  // do something
-	  stopRL = 0; // Testwert
+	 // stopRL = 0; // Testwert
 	  
 	  if(stopRL == 0){  
 		  xFrequency = speedR;
@@ -90,7 +90,7 @@ void setStop(uint8_t stop)
    
    for(;;) {
   // do something
-	  stopRL = 0; // Testwert
+	//  stopRL = 0; // Testwert
 	  if(stopRL == 0){
 		  xFrequency = speedL;
 		  //
