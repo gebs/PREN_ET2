@@ -180,9 +180,9 @@ void Measure(void) {
 
 	for (j; j < 5; j++) {
 		i = 0;
-		// Term1_Cls(); 
-		Term1_CursorDown(1);
-		Term1_CursorLeft(80);
+		
+		//Term1_CursorDown(1);
+		//Term1_CursorLeft(80);
 
 		for (i; i < 5; i++) {
 			if (sens[i] == 1) {
@@ -193,10 +193,10 @@ void Measure(void) {
 				cm = US_usToMillimeters(us, 22);
 				messwerte.mess[i].werte[j] = cm;
 
-				UTIL1_Num16uToStrFormatted(buf, sizeof(buf), cm, ' ', 5);
-				Term1_SendStr("   ");
+			UTIL1_Num16uToStrFormatted(buf, sizeof(buf), cm, ' ', 5);
+	/*				Term1_SendStr("   ");
 				Term1_SendNum(cm);
-				Term1_SendStr("mm       ");
+				Term1_SendStr("mm       ");     */
 				FRTOS1_vTaskDelayUntil(&xLastWakeTime,
 						abtastzeit/portTICK_RATE_MS);
 			}
@@ -215,13 +215,13 @@ void durchschnitt(void) {
 	uint8_t divisor = 0;
 
 	uint16_t durch[5] = { 0, 0, 0, 0, 0 };
-	Term1_CursorDown(2);
+/*	Term1_CursorDown(2);
 	Term1_CursorLeft(80);
 
 	Term1_SendStr(
 			" vlinks         hlinks        vrechts      hrechts       vmitte   ");
 	Term1_CursorDown(1);
-	Term1_CursorLeft(80);
+	Term1_CursorLeft(80);      */
 	for (j; j < 5; j++) {
 		for (i; i < 5; i++) {
 			//if (sens[j] == 1){
@@ -237,17 +237,17 @@ void durchschnitt(void) {
 			durch[j] = (durch[j] / divisor); /* dividiert die summe der Messwerte durch anzahl Messwerte ungleich 0*/
 			divisor = 0;
 			messwerte.mess[j].durchschnitt = durch[j]; 
-			UTIL1_Num16uToStrFormatted(buf, sizeof(buf), durch[j], ' ', 5);
+		/*	UTIL1_Num16uToStrFormatted(buf, sizeof(buf), durch[j], ' ', 5);
 			Term1_SendStr("   ");
 			Term1_SendNum(durch[j]);
-			Term1_SendStr("mm       ");
+			Term1_SendStr("mm       ");    */
 		}
 		//}
 
 	}
 
-	Term1_CursorDown(1);
-	Term1_CursorLeft(80);
+//	Term1_CursorDown(1);
+//	Term1_CursorLeft(80);
 }
 /*
  * 
