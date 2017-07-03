@@ -63,7 +63,8 @@ void Steuerung(void *pvParameters) {
 			motorstart(); 
 			
 	  		  if(links == 1){
-	  			start(2);   
+	  			start(2);  
+	  			setsoll(115); 
 	  			//Sensorn = 1; //TEST 25.05.17
 	  		  }
 	  		  if(links == 0){
@@ -118,28 +119,29 @@ void Steuerung(void *pvParameters) {
 					deletsens(3);
 				    setSpeedL(1);
 				 	setSpeedR(1);
-				 	setSensor(0);
-				 	xFrequency = 2000;
+				 	
+				 	xFrequency = 2300;
 				 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
 				 	
-				 	xFrequency = 3950; //angepasst original 3600
+				 	xFrequency = 4050; //angepasst original 3600
 				 	setSpeedL(1000);
 				 	setSpeedR(1);
 				 	 
 				
 				 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+				 	setSensor(0);
 				 	xFrequency = 2700;
 				 	setSpeedR(1);
 				 	setSpeedL(1);
 				 	
-				 	while(getsens(Sensorn) > 180){
+				 	while((getsens(Sensorn) > 180)||(getsens(Sensorn) == 0)){
 								 		xFrequency = 10;
 								 		FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
 								 						 	
 								 	}
 				    deletsens(0);
 				
-				 	xFrequency = 3950; //angepasst original 3600
+				 	xFrequency = 3800; //angepasst original 3600
 				 	setSpeedL(1000);
 				 	setSpeedR(1);
 				 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
@@ -154,21 +156,23 @@ void Steuerung(void *pvParameters) {
 			
 			if (links == 1){
 			    deletsens(2);
-			    setSensor(0);
+			    ;
 				setSpeedL(1);
 				
 			 	setSpeedR(1);
 			 	xFrequency = 2000; 
 			 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
-			 	xFrequency = 3950; //angepasst original 3600
+			 	xFrequency = 4050; //angepasst original 3950
+			 	
 			 	setSpeedL(1);
 			 	setSpeedR(1000);
 			 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
+			 	setSensor(0);
 			 	xFrequency = 2700;
 			 	setSpeedR(1);
 			 	setSpeedL(1);
 				 
-			 	while(getsens(Sensorn) > 210){
+			 	while((getsens(Sensorn) > 190)||(getsens(Sensorn) == 0)){
 											 		xFrequency = 10;
 											 		FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);
 											 						 	
@@ -176,7 +180,7 @@ void Steuerung(void *pvParameters) {
 			 	}
 				deletsens(0);
 			 	
-			 	xFrequency = 3950;//angepasst original 3600
+			 	xFrequency = 3800;//angepasst original 3600
 			 	setSpeedL(1);
 			 	setSpeedR(1000);
 			 	FRTOS1_vTaskDelayUntil(&xLastWakeTime, xFrequency/portTICK_RATE_MS);

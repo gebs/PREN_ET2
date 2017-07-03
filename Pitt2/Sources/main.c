@@ -82,6 +82,7 @@
 int main(void)
 /*lint -restore Enable MISRA rule (6.3) checking. */
 
+
 {
   /* Write your local variable definition here */
   int i = 0; // Variable ohne Gebrauch
